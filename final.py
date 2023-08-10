@@ -1,7 +1,7 @@
 def is_valid_move(board, row, column, direction):
 
-    neighbor = ""
-    otherSide = ""
+    neighbor = "" # neighbor is peg directly next to the position peg in the desired direction, the peg that the position peg hops over
+    otherSide = "" # otherside is the peg directly next to the neighbor peg in the desired direction,  the peg that the position peg eliminates  
 
     row = int(row) - 1
     column = int(column) - 1
@@ -44,7 +44,7 @@ def perform_move(board, row, column, direction):
         directionName = "RIGHT"
         
 
-    if not is_valid_move(board, row, column, direction):
+    if not is_valid_move(board, row, column, direction): 
         print(f"Moving a peg from row {row} and column {column} {directionName} is not currently a legal move.")
         print()
         return False
@@ -52,7 +52,7 @@ def perform_move(board, row, column, direction):
     row = int(row) - 1
     column = int(column) - 1
 
-    newBoard = [list(row) for row in board]
+    newBoard = [list(row) for row in board] # turns array of rows (strings) into an array of arrays of characters in order to modify specific character
     
     if direction == 1:
         newBoard[row - 1][column] = "-"
@@ -67,9 +67,9 @@ def perform_move(board, row, column, direction):
         newBoard[row][column + 1] = "-"
         newBoard[row][column + 2] = "@"
     
-    newBoard[row][column] = "-"
+    newBoard[row][column] = "-" 
 
-    newBoard = [''.join(row) for row in newBoard]
+    newBoard = [''.join(row) for row in newBoard] # joins array of characters together back into string
 
     return newBoard
 
@@ -85,7 +85,8 @@ def count_pegs_remaining(board):
     return sum(row.count("@") for row in board)
 
 def count_moves_available(board):
-    
+    # tests is_valid_move for every possible move within board
+
     count = 0
 
     for row in range(1, len(board) + 1):
@@ -109,9 +110,11 @@ def read_valid_move(board):
 def display_board(board):
     boardString = "  "
 
+    # initiates first line of the board (columns) horizontally: 1-x
     for i in range(len(board[0])):
         boardString += str(i + 1)
 
+    # incorporates the number of rows vertically along with each row ƒrom boardArray
     for i in range(len(board)):
         boardString += f"\n{i + 1} {board[i]}"
     
@@ -119,7 +122,8 @@ def display_board(board):
 
 def create_board(board_type):
     board = ""
-
+    
+    # board is set equal to the string directly from Canvas website, depending on the board_type selection by the user
     if board_type == 1:
         board = """
 		###@@@###
@@ -151,6 +155,7 @@ def create_board(board_type):
 		--@--
 		-----"""
 
+    # .split() turns the board string into an array based on new lines read (\n)
     boardArray = board.split()
     return boardArray 
 
@@ -185,11 +190,13 @@ Board Style Menu
     display_board(boardArray) 
 
     print()
-    while True:
+    while True: # loop runs until game is over
         column = read_valid_int("Choose the COLUMN of a peg you'd like to move: ", 1, len(boardArray[0]))
         row = read_valid_int("Choose the ROW of a peg you'd like to move: ", 1, len(boardArray))
         direction = read_valid_int("Choose a DIRECTION to move that peg 1) UP, 2) DOWN, 3) LEFT, or 4) RIGHT: ", 1, 4)
 
+        # if the move cannot be performed, the continue keyword will reset the process back to the top of the loop 
+        # perform_move() includes a check for is_valid_move(). If is_valid_move returns False, then an error message occurs telling the user that their choice was invalid. 
         if not perform_move(boardArray, row, column, direction):
             continue
 
@@ -202,7 +209,7 @@ Board Style Menu
                 print("Congrats, you won!")
             else:
                 print("It looks like there are no more legal moves. Please try again.")
-            break
+            break # When there are no more moves left, the while True: loop breaks regardless of a win or loss.
     
     print('''
 
