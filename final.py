@@ -84,14 +84,6 @@ def perform_move(board, row, column, direction):
 
 def count_pegs_remaining(board):
     # Counts remaining pegs based on "@" in board.
-    '''original
-    count = 0
-
-    for row in board:
-        for i in row:
-            if i == "@":
-                count += 1'''
-
     return sum(row.count("@") for row in board)
 
 def count_moves_available(board):
@@ -102,14 +94,14 @@ def count_moves_available(board):
     for row in range(1, len(board) + 1):
         for column in range(1, len(board[0]) + 1):
             for direction in range(1,5):
-                '''print(f"column: {column}")
-                print(f"row: {row}")
-                print(f"direction: {direction}")'''
+                '''print(f"Column: {column}")
+                print(f"Row: {row}")
+                print(f"Direction: {direction}")'''
                 if is_valid_move(board, row, column, direction):
                     count += 1
-                '''    print(f"count: {count}")
+                '''    print(f"Count: {count}")
                 else:
-                    print("fail")'''
+                    print("Fail")'''
 
     '''print(f"Possible Moves Left: {count}")'''
     return count
